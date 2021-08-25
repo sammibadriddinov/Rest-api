@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Full-Stack project</title>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="width: 600px" id="app" v-cloak>
+    <h1>Full-Stack Project</h1>
+    <form class="border p-4 shadow p-3 mb-5 rounded" @submit.prevent="createContact">
+        <h3 class="text-center">Form</h3>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" v-model="form.name">
+        </div>
+        <div class="mb-3">
+            <label for="value" class="form-label">Value</label>
+            <input type="text" class="form-control" id="value" v-model="form.value">
+        </div>
+        <button type="submit" class="btn btn-primary" :disabled="!canCreate">Create</button>
+    </form>
+    <div v-if="loading">
+        <Loader />
+    </div>
+    <div v-else-if="contacts.length">
+        <div class="card mt-3 shadow p-3 mb-5 rounded" v-for="contact in contacts">
+            <h3 class="text-center">Card</h3>
+            <div class="card-body">
+                <h5 class="card-title" :style="{color: contact.marked ? 'red' : 'black'}">{{contact.name}}</h5>
+                <p class="card-text">{{contact.value}}</p>
+                <button class="btn btn-primary" @click="markContact(contact.id)" :disabled="contact.marked">Mark</button>
+                <button class="btn btn-outline-danger" @click="removeContact(contact.id)">Delete</button>
+            </div>
+        </div>
+    </div>
+    <p class="lead" v-else>Contacts not found</p>
+</div>
+
+<script type="module" src="./script.js"></script>
+</body>
+</html>
